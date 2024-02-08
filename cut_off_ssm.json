@@ -47,9 +47,13 @@
           "    Write-Output \"AccountExpirationDate: $($user.AccountExpirationDate)\"",
           "    Write-Output \"Title: $($user.Title)\"",
           "    Write-Output \"-------------------------------------\"",
+
+          "    # Update \"Account Expiry\" to \"Cutoffdate1\"","
+          "    $newExpiryDateTime = $expiryDateTime.AddDays(1)",
+          "    Set-ADUser -Identity $user.SamAccountName -AccountExpirationDate $newExpiryDateTime",
           
           "    # Update \"Title\" attribute to \"Auto Expire\"",
-          "    Set-ADUser -Identity $user.SamAccountName -Title \"Auto Expire\"",
+          "    Set-ADUser -Identity $user.SamAccountName -Title \"AutoExpireEnabled\"",
           
           "    # Get updated user information",
           "    $updatedUser = Get-ADUser -Identity $user.SamAccountName -Properties SamAccountName, DisplayName, EmailAddress, AccountExpirationDate, Title",
