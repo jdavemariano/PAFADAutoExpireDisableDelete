@@ -46,6 +46,7 @@
           "    Write-Output \"EmailAddress: $($user.EmailAddress)\"",
           "    Write-Output \"AccountExpirationDate: $($user.AccountExpirationDate)\"",
           "    Write-Output \"Title: $($user.Title)\"",
+          "    Write-Output \"-------------------------------------\"",
           
           "    # Update \"Title\" attribute to \"Auto Expire\"",
           "    Set-ADUser -Identity $user.SamAccountName -Title \"Auto Expire\"",
@@ -60,9 +61,10 @@
           "    Write-Output \"EmailAddress: $($updatedUser.EmailAddress)\"",
           "    Write-Output \"AccountExpirationDate: $($updatedUser.AccountExpirationDate)\"",
           "    Write-Output \"Title: $($updatedUser.Title)\"",
+          "    Write-Output \"-------------------------------------\"",
           "}",
           
-          "Write-Output \"Script execution complete.\"",
+          "Write-Output \"Update of Title Attribute and Account Expiry on all accounts with matching EmailID completed.\"",
           ""
         ]
       }
