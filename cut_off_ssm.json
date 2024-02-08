@@ -20,7 +20,6 @@
       "inputs": {
         "runCommand": [
           "",
-          ""
           "$email = '{{EmailID}}'",
           "$expiryDate = '{{Cutoffdate}}'",
           "$expiryDateTime = Get-Date $expiryDate",
