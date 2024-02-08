@@ -38,22 +38,27 @@
           "# Find all users matching the provided email",
           "$matchingUsers = $allUsers | Where-Object { $_.EmailAddress -eq $email }",
           
+          "if ($matchingUsers.Count -eq 0) {",
+          "    Write-Output \"No users found with the provided email: $email\"",
+          "    exit",
+          "}",
+          
           "foreach ($user in $matchingUsers) {",
           "    # Display user information before update",
+          "    Write-Output \"---------- New Entry ----------\"",
           "    Write-Output \"User Information Before Update for $($user.SamAccountName):\"",
           "    Write-Output \"SamAccountName: $($user.SamAccountName)\"",
           "    Write-Output \"DisplayName: $($user.DisplayName)\"",
           "    Write-Output \"EmailAddress: $($user.EmailAddress)\"",
           "    Write-Output \"AccountExpirationDate: $($user.AccountExpirationDate)\"",
           "    Write-Output \"Title: $($user.Title)\"",
-          "    Write-Output \"-------------------------------------\"",
+          
+          "    # Update \"Title\" attribute to \"Auto Expire\"",
+          "    Set-ADUser -Identity $user.SamAccountName -Title \"AutoExpireEnabled\"",
 
           "    # Update \"Account Expiry\" to \"Cutoffdate1\"",
           "    $newExpiryDateTime = $expiryDateTime.AddDays(1)",
           "    Set-ADUser -Identity $user.SamAccountName -AccountExpirationDate $newExpiryDateTime",
-          
-          "    # Update \"Title\" attribute to \"Auto Expire\"",
-          "    Set-ADUser -Identity $user.SamAccountName -Title \"AutoExpireEnabled\"",
           
           "    # Get updated user information",
           "    $updatedUser = Get-ADUser -Identity $user.SamAccountName -Properties SamAccountName, DisplayName, EmailAddress, AccountExpirationDate, Title",
@@ -65,10 +70,15 @@
           "    Write-Output \"EmailAddress: $($updatedUser.EmailAddress)\"",
           "    Write-Output \"AccountExpirationDate: $($updatedUser.AccountExpirationDate)\"",
           "    Write-Output \"Title: $($updatedUser.Title)\"",
-          "    Write-Output \"-------------------------------------\"",
+          "    Write-Output \"---------- New Entry ----------\"",
           "}",
           
-          "Write-Output \"Update of Title Attribute and Account Expiry on all accounts with matching EmailID completed.\"",
+          "# List all usernames with matches on email id and total count",
+          "$matchingUsernames = $matchingUsers | Select-Object -ExpandProperty SamAccountName",
+          "Write-Output \"Usernames with matches on email id: $($matchingUsernames -join ', ')\"",
+          "Write-Output \"Total count of matches: $($matchingUsernames.Count)\"",
+          
+          "Write-Output \"Script execution complete.\"",
           ""
         ]
       }
