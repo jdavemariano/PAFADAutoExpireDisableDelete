@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "2.2",
+  "description": "Command Document Example JSON Template",
+  "parameters": {
+    "EmaiID": {
+      "type": "String",
+      "description": "Target email to lookup on AD",
+      "default": ""
+    },
+    "Cutoffdate": {
+      "type": "String",
+      "description": "New expiry date of all matching account",
+      "default": ""
+    }
+  },
+  "mainSteps": [
+    {
+      "action": "aws:runPowerShellScript",
+      "name": "AddToLocalAdmin",
+      "inputs": {
+        "runCommand": [
+          "",
+          ""
+          "$email = {{EmaiID}}",
+          "$expiryDate = {{Cutoffdate}}",
+          "$expiryDateTime = Get-Date $expiryDate",
+          "$allUsers = Get-ADUser -Filter * -Properties SamAccountName, DisplayName, EmailAddress, AccountExpirationDate",
+          "$user = $allUsers | Where-Object { $_.EmailAddress -eq $email }",
+          "if ($user) {",
+          "    Write-Host 'User Information Before Update:'",
+          "    Write-Host 'SamAccountName: $($user.SamAccountName)'",
+          "    Write-Host 'DisplayName: $($user.DisplayName)'",
+          "    Write-Host 'EmailAddress: $($user.EmailAddress)'",
+          "    $newExpiryDateTime = $expiryDateTime.AddDays(1)",
+          "    Set-ADUser -Identity $user.SamAccountName -AccountExpirationDate $newExpiryDateTime",
+          "    $updatedUser = Get-ADUser -Identity $user.SamAccountName -Properties SamAccountName, DisplayName, EmailAddress, AccountExpirationDate",
+          "    Write-Host 'User Information after Update:'",
+          "    Write-Host 'SamAccountName: $($updatedUser.SamAccountName)'",
+          "    Write-Host 'DisplayName: $($updatedUser.DisplayName)'",
+          "    Write-Host 'EmailAddress: $($updatedUser.EmailAddress)'",
+          "    Write-Host 'AccountExpirationDate: $($updatedUser.AccountExpirationDate)'",
+          "}",
+          "else {",
+          "    Write-Host 'No match found with the provided email.'",
+          "}",
+          ""
+        ]
+      }
+    }
+  ]
+}
