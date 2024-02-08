@@ -35,7 +35,7 @@
           "    Write-Host 'Title: $($user.Title)'",
           "    $newExpiryDateTime = $expiryDateTime.AddDays(1)",
           "    Set-ADUser -Identity $user.SamAccountName -AccountExpirationDate $newExpiryDateTime",
-          "    Set-ADUser -Identity $user.SamAccountName -Title "AutoExpireTest",
+          "    Set-ADUser -Identity $user.SamAccountName -Title 'AutoExpireTest'",
           "    $updatedUser = Get-ADUser -Identity $user.SamAccountName -Properties SamAccountName, DisplayName, EmailAddress, AccountExpirationDate",
           "    Write-Host 'User Information after Update:'",
           "    Write-Host 'SamAccountName: $($updatedUser.SamAccountName)'",
