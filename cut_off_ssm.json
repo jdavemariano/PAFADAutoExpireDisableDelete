@@ -30,7 +30,7 @@
           "}",
           
           "# Convert expiry date to DateTime object",
-          "$expiryDateTime = Get-Date $expiryDate",
+          "$expiryDateTime = (Get-Date $expiryDate).AddDays(1)",
           
           "# Get all AD users",
           "$allUsers = Get-ADUser -Filter * -Properties SamAccountName, DisplayName, EmailAddress, AccountExpirationDate, Title",
