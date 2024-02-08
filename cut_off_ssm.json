@@ -21,8 +21,8 @@
         "runCommand": [
           "",
           ""
-          "$email = {{EmailID}}",
-          "$expiryDate = {{Cutoffdate}}",
+          "$email = '{{EmailID}}'",
+          "$expiryDate = '{{Cutoffdate}}'",
           "$expiryDateTime = Get-Date $expiryDate",
           "$allUsers = Get-ADUser -Filter * -Properties SamAccountName, DisplayName, EmailAddress, AccountExpirationDate, Title",
           "$user = $allUsers | Where-Object { $_.EmailAddress -eq $email }",
