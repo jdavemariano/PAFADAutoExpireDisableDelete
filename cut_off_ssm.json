@@ -45,26 +45,31 @@
           
           "foreach ($user in $matchingUsers) {",
           "    # Display user information before update",
-          "    Write-Output \"User Information Before Update for $($user.SamAccountName):\"",
           "    Write-Output \"---------- New Entry ----------\"",
-          "    Get-ADUser -Identity $user.SamAccountName -Properties DisplayName, EmailAddress, AccountExpirationDate, Title | Select-Object DisplayName, EmailAddress, AccountExpirationDate, Title",
-          "    Write-Output \"--------------------------------\"",
+          "    Write-Output \"User Information Before Update for $($user.SamAccountName):\"",
+          "    Write-Output \"SamAccountName: $($user.SamAccountName)\"",
+          "    Write-Output \"DisplayName: $($user.DisplayName)\"",
+          "    Write-Output \"EmailAddress: $($user.EmailAddress)\"",
+          "    Write-Output \"AccountExpirationDate: $($user.AccountExpirationDate)\"",
+          "    Write-Output \"Title: $($user.Title)\"",
           
           "    # Update \"Title\" attribute to \"Auto Expire\"",
-          "    Set-ADUser -Identity $user.SamAccountName -Title \"AutoExpireEnabled\"",
-
-          "    # Update \"Account Expiry\" to \"Cutoffdate1\"",
-          "    $newExpiryDateTime = $expiryDateTime.AddDays(1)",
-          "    Set-ADUser -Identity $user.SamAccountName -AccountExpirationDate $newExpiryDateTime",
+          "    Set-ADUser -Identity $user.SamAccountName -Title \"Auto Expire\"",
+          
+          "    # Update AccountExpirationDate to the provided expiry date",
+          "    Set-ADUser -Identity $user.SamAccountName -AccountExpirationDate $expiryDateTime",
           
           "    # Get updated user information",
           "    $updatedUser = Get-ADUser -Identity $user.SamAccountName -Properties SamAccountName, DisplayName, EmailAddress, AccountExpirationDate, Title",
           
           "    # Display updated user information",
-          "    Write-Output \"--------------------------------\"",
           "    Write-Output \"User Information After Update for $($updatedUser.SamAccountName):\"",
-          "    Get-ADUser -Identity $user.SamAccountName -Properties DisplayName, EmailAddress, AccountExpirationDate, Title | Select-Object DisplayName, EmailAddress, AccountExpirationDate, Title",
-          "    Write-Output \"---------- End Of Entry ----------\"",
+          "    Write-Output \"SamAccountName: $($updatedUser.SamAccountName)\"",
+          "    Write-Output \"DisplayName: $($updatedUser.DisplayName)\"",
+          "    Write-Output \"EmailAddress: $($updatedUser.EmailAddress)\"",
+          "    Write-Output \"AccountExpirationDate: $($updatedUser.AccountExpirationDate)\"",
+          "    Write-Output \"Title: $($updatedUser.Title)\"",
+          "    Write-Output \"---------- New Entry ----------\"",
           "}",
           
           "# List all usernames with matches on email id and total count",
