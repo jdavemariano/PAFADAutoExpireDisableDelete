@@ -48,7 +48,7 @@
           "    Write-Output \"Title: $($user.Title)\"",
           "    Write-Output \"-------------------------------------\"",
 
-          "    # Update \"Account Expiry\" to \"Cutoffdate1\"","
+          "    # Update \"Account Expiry\" to \"Cutoffdate1\"",
           "    $newExpiryDateTime = $expiryDateTime.AddDays(1)",
           "    Set-ADUser -Identity $user.SamAccountName -AccountExpirationDate $newExpiryDateTime",
           
