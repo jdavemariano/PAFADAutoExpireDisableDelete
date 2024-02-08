@@ -16,36 +16,53 @@
   "mainSteps": [
     {
       "action": "aws:runPowerShellScript",
-      "name": "AddToLocalAdmin",
+      "name": "PAFADExpireUpdate",
       "inputs": {
         "runCommand": [
           "",
           "$email = '{{EmailID}}'",
           "$expiryDate = '{{Cutoffdate}}'",
+          
+          "# Check if email is provided",
+          "if ([string]::IsNullOrEmpty($email)) {",
+          "    Write-Output \"Email cannot be null or empty. Exiting script.\"",
+          "    exit",
+          "}",
+          
+          "# Convert expiry date to DateTime object",
           "$expiryDateTime = Get-Date $expiryDate",
+          
+          "# Get all AD users",
           "$allUsers = Get-ADUser -Filter * -Properties SamAccountName, DisplayName, EmailAddress, AccountExpirationDate, Title",
-          "$user = $allUsers | Where-Object { $_.EmailAddress -eq $email }",
-          "if ($user) {",
-          "    Write-Host 'User Information Before Update:'",
-          "    Write-Host 'SamAccountName: $($user.SamAccountName)'",
-          "    Write-Host 'DisplayName: $($user.DisplayName)'",
-          "    Write-Host 'EmailAddress: $($user.EmailAddress)'",
-          "    Write-Host 'AccountExpirationDate: $($user.AccountExpirationDate)'",
-          "    Write-Host 'Title: $($user.Title)'",
-          "    $newExpiryDateTime = $expiryDateTime.AddDays(1)",
-          "    Set-ADUser -Identity $user.SamAccountName -AccountExpirationDate $newExpiryDateTime",
-          "    Set-ADUser -Identity $user.SamAccountName -Title 'AutoExpireTest'",
-          "    $updatedUser = Get-ADUser -Identity $user.SamAccountName -Properties SamAccountName, DisplayName, EmailAddress, AccountExpirationDate",
-          "    Write-Host 'User Information after Update:'",
-          "    Write-Host 'SamAccountName: $($updatedUser.SamAccountName)'",
-          "    Write-Host 'DisplayName: $($updatedUser.DisplayName)'",
-          "    Write-Host 'EmailAddress: $($updatedUser.EmailAddress)'",
-          "    Write-Host 'AccountExpirationDate: $($updatedUser.AccountExpirationDate)'",
-          "    Write-Host 'Title: $($updatedUser.Title)'",
+          
+          "# Find all users matching the provided email",
+          "$matchingUsers = $allUsers | Where-Object { $_.EmailAddress -eq $email }",
+          
+          "foreach ($user in $matchingUsers) {",
+          "    # Display user information before update",
+          "    Write-Output \"User Information Before Update for $($user.SamAccountName):\"",
+          "    Write-Output \"SamAccountName: $($user.SamAccountName)\"",
+          "    Write-Output \"DisplayName: $($user.DisplayName)\"",
+          "    Write-Output \"EmailAddress: $($user.EmailAddress)\"",
+          "    Write-Output \"AccountExpirationDate: $($user.AccountExpirationDate)\"",
+          "    Write-Output \"Title: $($user.Title)\"",
+          
+          "    # Update \"Title\" attribute to \"Auto Expire\"",
+          "    Set-ADUser -Identity $user.SamAccountName -Title \"Auto Expire\"",
+          
+          "    # Get updated user information",
+          "    $updatedUser = Get-ADUser -Identity $user.SamAccountName -Properties SamAccountName, DisplayName, EmailAddress, AccountExpirationDate, Title",
+          
+          "    # Display updated user information",
+          "    Write-Output \"User Information After Update for $($updatedUser.SamAccountName):\"",
+          "    Write-Output \"SamAccountName: $($updatedUser.SamAccountName)\"",
+          "    Write-Output \"DisplayName: $($updatedUser.DisplayName)\"",
+          "    Write-Output \"EmailAddress: $($updatedUser.EmailAddress)\"",
+          "    Write-Output \"AccountExpirationDate: $($updatedUser.AccountExpirationDate)\"",
+          "    Write-Output \"Title: $($updatedUser.Title)\"",
           "}",
-          "else {",
-          "    Write-Host 'No match found with the provided email.'",
-          "}",
+          
+          "Write-Output \"Script execution complete.\""
           ""
         ]
       }
