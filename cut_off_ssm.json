@@ -62,7 +62,7 @@
           "    Write-Output \"Title: $($updatedUser.Title)\"",
           "}",
           
-          "Write-Output \"Script execution complete.\""
+          "Write-Output \"Script execution complete.\"",
           ""
         ]
       }
