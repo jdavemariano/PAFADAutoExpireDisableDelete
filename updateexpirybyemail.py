@@ -7,7 +7,7 @@ domain = sys.argv[1]
 emailid = sys.argv[2]
 cutoffdate = sys.argv[3]
 
-ssm_file = open("cut_off_ssm.json")
+ssm_file = open("user_email_match.json")
 ssm_json = ssm_file.read()
 
 target_emailid = emailid
@@ -23,7 +23,7 @@ instance_ids = {
 
 target_domain = instance_ids[domain]
 
-ssm_doc_name = 'cut_off_ssm'
+ssm_doc_name = 'user_email_match'
 ssm_client = boto3.client('ssm', region_name="us-east-1")
 
 ssm_create_response = ssm_client.create_document(Content = ssm_json, Name = ssm_doc_name, DocumentType = 'Command', DocumentFormat = 'JSON', TargetType =  "/AWS::EC2::Instance")
