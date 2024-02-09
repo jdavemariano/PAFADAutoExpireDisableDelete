@@ -22,17 +22,17 @@
           "",
           "$email = '{{EmailID}}'",
           "$allUsers = Get-ADUser -Filter * -Properties SamAccountName, DisplayName, EmailAddress, AccountExpirationDate",
-          "$matchingUsers = $allUsers | Where-Object { $_.EmailAddress -eq $env:email }",
+          "$matchingUsers = $allUsers | Where-Object { $_.EmailAddress -eq $email }",
           "$numberOfMatches = $matchingUsers.Count",
-          "Write-Host 'Target Email Address: $env:email'",
-          "Write-Host 'Domain Name: $env:userdnsdomain'",
+          "Write-Host 'Target Email Address: $email'",
+          "Write-Host 'Domain Name: $env:USERDNSDOMAIN'",
           "Write-Host 'Number of matching users: $numberOfMatches'",
           "if ($numberOfMatches -gt 0) {",
           "    Write-Host 'Usernames of matching users:'",
           "    $matchingUsers | ForEach-Object { Write-Host $_.SamAccountName }",
           "} else {",
-          "    Write-Host 'No matching users found on $email at $env:userdnsdomain .'",
-          ""
+          "    Write-Host 'No matching users found.'",
+          "}"
         ]
       }
     }
