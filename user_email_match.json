@@ -33,6 +33,7 @@
           "} else {",
           "    Write-Host 'No matching users found.'",
           "}"
+          ""
         ]
       }
     }
