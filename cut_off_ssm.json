@@ -39,7 +39,7 @@
           "$matchingUsers = $allUsers | Where-Object { $_.EmailAddress -eq $email }",
           
           "if ($matchingUsers.Count -eq 0) {",
-          "    Write-Output \"No users found with the provided email: $email\"",
+          "    Write-Output \"No users found with the provided email: $email at $env:userdnsdomain\"",
           "    exit",
           "}",
           
