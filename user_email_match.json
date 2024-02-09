@@ -21,11 +21,12 @@
         "runCommand": [
           "",
           "$email = '{{EmailID}}'",
+          "$domainName = $env:USERDNSDOMAIN",
           "$allUsers = Get-ADUser -Filter * -Properties SamAccountName, DisplayName, EmailAddress, AccountExpirationDate",
           "$matchingUsers = $allUsers | Where-Object { $_.EmailAddress -eq $email }",
           "$numberOfMatches = $matchingUsers.Count",
           "Write-Host 'Target Email Address:' $email",
-          "Write-Host 'Domain Name:' $env:USERDNSDOMAIN",
+          "Write-Host 'Domain Name:' $domainName",
           "Write-Host 'Number of matching users:' $numberOfMatches",
           "if ($numberOfMatches -gt 0) {",
           "    Write-Host 'Usernames of matching users:'",
