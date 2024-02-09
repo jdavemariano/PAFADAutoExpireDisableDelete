@@ -32,7 +32,7 @@
           "    $matchingUsers | ForEach-Object { Write-Host $_.SamAccountName }",
           "} else {",
           "    Write-Host 'No matching users found.'",
-          "}"
+          "}",
           ""
         ]
       }
