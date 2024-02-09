@@ -31,7 +31,7 @@
           "    Write-Host 'Usernames of matching users:'",
           "    $matchingUsers | ForEach-Object { Write-Host $_.SamAccountName }",
           "} else {",
-          "    Write-Host 'No matching users found.'",
+          "    Write-Host 'No matching users found on $email at $env:userdnsdomain .'",
           ""
         ]
       }
