@@ -54,7 +54,7 @@
           "    Write-Output \"Title: $($user.Title)\"",
           
           "    # Update \"Title\" attribute to \"Auto Expire\"",
-          "    Set-ADUser -Identity $user.SamAccountName -Title \"Auto Expire\"",
+          "    Set-ADUser -Identity $user.SamAccountName -Title \"AutoExpireEnabled\"",
           
           "    # Update AccountExpirationDate to the provided expiry date",
           "    Set-ADUser -Identity $user.SamAccountName -AccountExpirationDate $expiryDateTime",
