@@ -25,7 +25,13 @@ instance_ids = {
 target_domain = instance_ids[domain]
 
 ssm_doc_name = 'cut_off_ssm'
-ssm_client = boto3.client('ssm', region_name="us-east-1")
+
+if domain == "avitru":
+    region_name = "us-west-2"
+else:
+    region_name = "us-east-1"
+
+ssm_client = boto3.client('ssm', region_name=region_name)
 
 ssm_create_response = ssm_client.create_document(Content = ssm_json, Name = ssm_doc_name, DocumentType = 'Command', DocumentFormat = 'JSON', TargetType =  "/AWS::EC2::Instance")
 
