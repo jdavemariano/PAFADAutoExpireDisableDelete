@@ -14,6 +14,7 @@ target_emailid = emailid
 
 instance_ids = {
 	"deltekdev":"i-04d0e953afe07b3a3",
+	"avitru":"i-0750c84a6f973550a",
 	"costpoint":"i-0e82a12d1ef934425",
         "dco":"i-0fe3ff3ff41c18b17",
 	"flexplus":"i-0f2717bceb18eea6f",
@@ -24,7 +25,13 @@ instance_ids = {
 target_domain = instance_ids[domain]
 
 ssm_doc_name = 'user_email_match'
-ssm_client = boto3.client('ssm', region_name="us-east-1")
+
+if domain == "avitru":
+    region_name = "us-west-2"
+else:
+    region_name = "us-east-1"
+
+ssm_client = boto3.client('ssm', region_name=region_name)
 
 ssm_create_response = ssm_client.create_document(Content = ssm_json, Name = ssm_doc_name, DocumentType = 'Command', DocumentFormat = 'JSON', TargetType =  "/AWS::EC2::Instance")
 
